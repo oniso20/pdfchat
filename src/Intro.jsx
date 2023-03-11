@@ -1,18 +1,22 @@
 import React, { useState } from "react";
 import axios from "axios";
+
+// Font Awesome
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner, faUpload } from "@fortawesome/free-solid-svg-icons";
-import "./Intro.css"; // Import the CSS file
+
+// Style
+import "./Intro.css";
 
 const Intro = () => {
   const [file, setFile] = useState(null);
   const [uploadStatus, setUploadStatus] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
-  const [fileName, setFileName] = useState(null); // New state variable
+  const [fileName, setFileName] = useState(null);
 
   const handleFileInputChange = (event) => {
     setFile(event.target.files[0]);
-    setFileName(event.target.files[0].name); // Set fileName to the name of the selected file
+    setFileName(event.target.files[0].name);
   };
 
   const handleUpload = async () => {
@@ -22,27 +26,21 @@ const Intro = () => {
       const formData = new FormData();
       formData.append("file", file, file.name);
 
-      const response = await fetch("/uploadPdfVercel", {
-        method: "POST",
-        body: formData,
-      });
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Accept: "application/json",
+        },
+      };
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      // const response = await axios.post("/upload_pdf", formData, config); // local
+      const response = await axios.post("/api/upload_pdf", formData, config); //vercel
 
-      const text = await response.text();
+      console.log(response.data);
 
-      let data;
-      try {
-        data = JSON.parse(text);
-      } catch (error) {
-        throw new Error(`Invalid JSON response: ${text}`);
-      }
-
-      console.log(data);
-
-      setUploadStatus(`File uploaded successfully with ID: ${data.docId}`);
+      setUploadStatus(
+        `File uploaded successfully with ID: ${response.data.docId}`
+      );
     } catch (error) {
       console.error(error);
       setUploadStatus("Failed to upload file");
