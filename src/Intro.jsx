@@ -29,11 +29,7 @@ const Intro = () => {
         },
       };
 
-      const response = await axios.post(
-        "/api/upload-pdf-vercel",
-        formData,
-        config
-      );
+      const response = await axios.post("/api/upload_pdf", formData, config);
 
       console.log(response.data);
 
