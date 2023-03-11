@@ -66,10 +66,12 @@ const Intro = () => {
         <label htmlFor="fileInput">
           <FontAwesomeIcon icon={faUpload} /> Upload PDF
         </label>
-        {fileName && <p className="file-selected">{`${fileName} selected`}</p>}{" "}
         <button onClick={handleUpload} disabled={!file || isUploading}>
           {isUploading ? <FontAwesomeIcon icon={faSpinner} spin /> : "Send"}
         </button>
+      </div>
+      <div>
+        {fileName && <p className="file-selected">{`${fileName} selected`}</p>}
       </div>
       {uploadStatus && <p className="upload-status">{uploadStatus}</p>}
     </div>
