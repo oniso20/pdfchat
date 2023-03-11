@@ -27,7 +27,18 @@ const Intro = () => {
         body: formData,
       });
 
-      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const text = await response.text();
+
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (error) {
+        throw new Error(`Invalid JSON response: ${text}`);
+      }
 
       console.log(data);
 
