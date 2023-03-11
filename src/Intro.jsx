@@ -36,8 +36,6 @@ const Intro = () => {
       // const response = await axios.post("/upload_pdf", formData, config); // local
       const response = await axios.post("/api/upload_pdf", formData, config); //vercel
 
-      console.log(response.data);
-
       setUploadStatus(
         `File uploaded successfully with ID: ${response.data.docId}`
       );
