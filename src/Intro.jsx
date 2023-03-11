@@ -22,20 +22,16 @@ const Intro = () => {
       const formData = new FormData();
       formData.append("file", file, file.name);
 
-      const config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Accept: "application/json",
-        },
-      };
+      const response = await fetch("/api/uploadPdfVercel", {
+        method: "POST",
+        body: formData,
+      });
 
-      const response = await axios.post("/api/upload_pdf", formData, config);
+      const data = await response.json();
 
-      console.log(response.data);
+      console.log(data);
 
-      setUploadStatus(
-        `File uploaded successfully with ID: ${response.data.docId}`
-      );
+      setUploadStatus(`File uploaded successfully with ID: ${data.docId}`);
     } catch (error) {
       console.error(error);
       setUploadStatus("Failed to upload file");
