@@ -22,7 +22,7 @@ const Intro = () => {
       const formData = new FormData();
       formData.append("file", file, file.name);
 
-      const response = await fetch("/api/uploadPdfVercel", {
+      const response = await fetch("/uploadPdfVercel", {
         method: "POST",
         body: formData,
       });
